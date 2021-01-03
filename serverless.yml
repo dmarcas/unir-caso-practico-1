@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 org: davidmarcas
-=======
->>>>>>> 6f35d1b47456690f6638c410a0ae187f59f4047c
 app: todo-list-serverless
 service: serverless-rest-api-with-dynamodb
 
