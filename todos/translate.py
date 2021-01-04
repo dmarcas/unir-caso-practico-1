@@ -4,7 +4,8 @@ import boto3
 from todos import decimalencoder
 
 dynamodb = boto3.resource('dynamodb')
-translation = boto3.client('translate') #boto3.client(service_name='translate', region_name='us-east-1', use_ssl=True)
+translation = boto3.client('translate') 
+#boto3.client(service_name='translate', region_name='us-east-1', use_ssl=True)
 comprehend = boto3.client('comprehend') 
 
 def translate(event, context):
@@ -18,7 +19,7 @@ def translate(event, context):
     )
 
     #Recover text from table
-    text = result['Item']['text']
+    textToTranslate = result['Item']['text']
 
     #Recover text from path
     targetLanguage = event['pathParameters']['language']
@@ -28,10 +29,7 @@ def translate(event, context):
     language = comprehendResponse['Languages'][0]['LanguageCode']
 
     #text translation
-    textTranslated = translation.translate_text(Text = text,
-                                    SouceLanguageCode=language,
-                                    TargetLanguageCode = targetLanguage
-                                )
+    textTranslated = translation.translate_text(Text = textToTranslate, SouceLanguageCode=language, TargetLanguageCode = targetLanguage)
 
     #add translated text into item to be returned
     result['Item']['text'] = textTranslated.get('TranslatedText')
