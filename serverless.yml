@@ -2,13 +2,16 @@ org: davidmarcas
 app: todo-list-serverless
 service: serverless-rest-api-with-dynamodb
 
-frameworkVersion: ">=1.1.0 <2.18.0"
+frameworkVersion: ">=1.1.0"
 
 provider:
   name: aws
   runtime: python3.8
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iamManagedPolicies:
+    - "arn:aws:iam::aws:policy/ComprehendFullAccess"
+    - "arn:aws:iam::aws:policy/TranslateFullAccess"
   iamRoleStatements:
     - Effect: Allow
       Action:
