@@ -25,7 +25,7 @@ def translate(event, context):
     targetLanguage = event['pathParameters']['language']
 
     #detect main language stored
-    comprehendResponse = comprehend.detect_dominant_language(Text=text) 
+    comprehendResponse = comprehend.detect_dominant_language(Text=textToTranslate) 
     language = comprehendResponse['Languages'][0]['LanguageCode']
 
     #text translation
