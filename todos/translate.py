@@ -29,7 +29,7 @@ def translate(event, context):
     language = comprehendResponse['Languages'][0]['LanguageCode']
 
     #text translation
-    textTranslated = translation.translate_text(Text = textToTranslate, SouceLanguageCode=language, TargetLanguageCode = targetLanguage)
+    textTranslated = translation.translate_text(Text = textToTranslate, SourceLanguageCode=language, TargetLanguageCode = targetLanguage)
 
     #add translated text into item to be returned
     result['Item']['text'] = textTranslated.get('TranslatedText')
