@@ -43,16 +43,17 @@ def translate(event, context):
 
     return response
     
-    def translateText(textToTranslate, targetLanguage) :
-        textTranslated = textToTranslate
-        comprehendResponse = comprehend.detect_dominant_language(Text=textToTranslate) 
+def translateText(textToTranslate, targetLanguage) :
+    textTranslated = textToTranslate
+    comprehendResponse = comprehend.detect_dominant_language(Text=textToTranslate) 
         
-        if not textToTranslate
-            print("Error, the text to be translated is empty")
-        else if not comprehendResponse
-            print("Error recovering original language ")
-        else
-            language = comprehendResponse['Languages'][0]['LanguageCode']
-            textTranslated = translation.translate_text(Text = textToTranslate, SourceLanguageCode=language, TargetLanguageCode = targetLanguage)
-            textTranslated.get('TranslatedText')
-        return textTranslated
+    if not textToTranslate:
+        print("Error text to translate is empty")
+    elif not comprehendResponse: 
+        print("Error recovering original language")            
+    else:
+        language = comprehendResponse['Languages'][0]['LanguageCode']
+        traductioResult = translation.translate_text(Text = textToTranslate, SourceLanguageCode=language, TargetLanguageCode = targetLanguage)
+        textTranslated = traductioResult.get('TranslatedText')
+            
+    return textTranslated
