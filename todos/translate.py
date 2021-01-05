@@ -24,13 +24,6 @@ def translate(event, context):
     #Recover text from path
     targetLanguage = event['pathParameters']['language']
 
-    #detect main language stored
-    #comprehendResponse = comprehend.detect_dominant_language(Text=textToTranslate) 
-    #language = comprehendResponse['Languages'][0]['LanguageCode']
-
-    #text translation
-    #textTranslated = translation.translate_text(Text = textToTranslate, SourceLanguageCode=language, TargetLanguageCode = targetLanguage)
-
     #add translated text into item to be returned
     result['Item']['text'] = translateText(textToTranslate, targetLanguage) #textTranslated.get('TranslatedText')
 
@@ -45,6 +38,7 @@ def translate(event, context):
     
 def translateText(textToTranslate, targetLanguage) :
     textTranslated = textToTranslate
+    #detect main language stored
     comprehendResponse = comprehend.detect_dominant_language(Text=textToTranslate) 
         
     if not textToTranslate:
@@ -53,6 +47,7 @@ def translateText(textToTranslate, targetLanguage) :
         print("Error recovering original language")            
     else:
         language = comprehendResponse['Languages'][0]['LanguageCode']
+        #text translation
         traductioResult = translation.translate_text(Text = textToTranslate, SourceLanguageCode=language, TargetLanguageCode = targetLanguage)
         textTranslated = traductioResult.get('TranslatedText')
             
