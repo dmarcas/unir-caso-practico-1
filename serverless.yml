@@ -9,9 +9,6 @@ provider:
   runtime: python3.8
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-  iamManagedPolicies:
-    - "arn:aws:iam::aws:policy/ComprehendFullAccess"
-    - "arn:aws:iam::aws:policy/TranslateFullAccess"
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -22,6 +19,16 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    
+    - Effect: Allow
+      Action:
+        - comprehend:DetectDominantLanguage
+      Resource: "*"
+
+    - Effect: Allow
+      Action:
+        - translate:TranslateText
+      Resource: "*"
 
 functions:
   create:
