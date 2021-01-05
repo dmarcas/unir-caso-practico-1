@@ -2,7 +2,7 @@ org: davidmarcas
 app: todo-list-serverless
 service: serverless-rest-api-with-dynamodb
 
-frameworkVersion: ">=1.1.0 <2.18.0"
+frameworkVersion: ">=1.1.0"
 
 provider:
   name: aws
@@ -19,6 +19,16 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    
+    - Effect: Allow
+      Action:
+        - comprehend:DetectDominantLanguage
+      Resource: "*"
+
+    - Effect: Allow
+      Action:
+        - translate:TranslateText
+      Resource: "*"
 
 functions:
   create:
@@ -42,6 +52,14 @@ functions:
     events:
       - http:
           path: todos/{id}
+          method: get
+          cors: true
+
+  translate:
+    handler: todos/translate.translate
+    events:
+      - http:
+          path: todos/{id}/{language}
           method: get
           cors: true
 
